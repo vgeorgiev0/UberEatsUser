@@ -1,27 +1,33 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Restaurant } from '../../../types/restaurant';
 
 interface RestaurantItemProps {
-  uri: string;
-  title: string;
-  subtitle: string;
+  restaurant: Restaurant;
 }
 
-const RestaurantItem: React.FC<RestaurantItemProps> = ({
-  uri,
-  title,
-  subtitle,
-}) => {
+const RestaurantItem: React.FC<RestaurantItemProps> = ({ restaurant }) => {
   return (
-    <View style={styles.restaurantContainer}>
+    <TouchableOpacity style={styles.restaurantContainer}>
       <Image
         style={styles.image}
         source={{
-          uri: uri,
+          uri: restaurant.image,
         }}
       />
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
-    </View>
+
+      <View style={styles.row}>
+        <View>
+          <Text style={styles.title}>{restaurant.name}</Text>
+          <Text style={styles.subtitle}>
+            ${restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
+            {restaurant.maxDeliveryTime} minutes
+          </Text>
+        </View>
+        <View style={styles.rating}>
+          <Text>{restaurant.rating}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -42,4 +48,14 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 15, fontWeight: 'bold', marginVertical: 5 },
   subtitle: { color: 'grey' },
+  row: { flexDirection: 'row', alignItems: 'center' },
+  rating: {
+    marginLeft: 'auto',
+    backgroundColor: '#affa',
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
 });

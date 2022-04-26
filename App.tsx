@@ -1,29 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import RestaurantItem from './src/components/RestaurantItem';
+import restaurants from './assets/data/restaurants.json';
 
 export default function App() {
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <RestaurantItem
-          uri={`https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant2.jpeg`}
-          title={'title'}
-          subtitle={'subtitle'}
-        />
-        <RestaurantItem
-          uri={`https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant2.jpeg`}
-          title={'title'}
-          subtitle={'subtitle'}
-        />
-        <RestaurantItem
-          uri={`https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant2.jpeg`}
-          title={'title'}
-          subtitle={'subtitle'}
-        />
-      </View>
+    <View style={styles.container}>
+      <FlatList
+        data={restaurants}
+        renderItem={({ item }) => <RestaurantItem restaurant={item} />}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.id}
+      />
       <StatusBar style="auto" />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -33,19 +23,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 20,
   },
-  image: {
-    width: '100%',
-    aspectRatio: 5 / 3,
-    marginBottom: 5,
-    borderRadius: 10,
-  },
-  restaurantContainer: {
-    width: '100%',
-    backgroundColor: '#fa12',
-    padding: 10,
-    marginVertical: 10,
-  },
-  title: { fontSize: 15, fontWeight: 'bold', marginVertical: 5 },
-  subtitle: { color: 'grey' },
 });
