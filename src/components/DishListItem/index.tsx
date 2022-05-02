@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Dishes } from '../../../types/restaurant';
 
@@ -8,20 +8,20 @@ interface DishListItemProps {
 
 const DishListItem: React.FC<DishListItemProps> = ({ dish }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.name}>{dish.name}</Text>
         <Text style={styles.description} numberOfLines={2}>
           {dish.description}
         </Text>
-        <Text style={styles.price}>${dish.price}</Text>
+        <Text style={styles.price}>${dish.price?.toFixed(2)}</Text>
       </View>
       <View>
         {dish.image && (
           <Image source={{ uri: dish.image }} style={styles.image} />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

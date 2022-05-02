@@ -26,7 +26,7 @@ const RestaurantDetailsScreen = () => {
         <View style={styles.textContainer}>
           <Text style={styles.title}>{restaurants[0].name}</Text>
           <Text style={styles.subtitle}>
-            ${restaurants[0].deliveryFee} &#8226;{' '}
+            ${restaurants[0].deliveryFee.toFixed(2)} &#8226;{' '}
             {restaurants[0].minDeliveryTime}-{restaurants[0].maxDeliveryTime}{' '}
             minutes
           </Text>
