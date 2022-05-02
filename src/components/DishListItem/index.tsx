@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { Dishes } from '../../../types/restaurant';
+import { Dishes } from '../../../types/dishes';
 
 interface DishListItemProps {
   dish: Dishes;

@@ -1,9 +1,4 @@
-export type Dishes = {
-  name?: string;
-  description?: string;
-  price?: number;
-  image?: string;
-};
+import { Dishes } from './dishes';
 
 export type Restaurant = {
   id?: string;
@@ -14,4 +9,9 @@ export type Restaurant = {
   rating?: number;
   image?: string;
   dishes?: Dishes[];
+  address?: string;
+  lat?: number;
+  lng?: number;
+  createdAt?: string;
+  updatedAt?: string;
 };
