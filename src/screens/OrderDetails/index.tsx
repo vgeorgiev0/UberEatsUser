@@ -2,7 +2,7 @@ import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import orders from '../../../assets/data/orders.json';
 import restaurants from '../../../assets/data/restaurants.json';
-import DishListItem from '../../components/DishListItem';
+import BasketDishItem from '../../components/BasketDishItem';
 const order = orders[0];
 
 const OrderDetails = () => {
@@ -22,8 +22,9 @@ const OrderDetails = () => {
   return (
     <FlatList
       data={restaurants[0].dishes}
-      renderItem={({ item }) => <DishListItem dish={item} />}
+      renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       ListHeaderComponent={HeaderComponent}
+      keyExtractor={(item, index) => index.toString()}
     />
   );
 };
