@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   title: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 16,
   },
   priceAndStatus: {
