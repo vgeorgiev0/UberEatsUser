@@ -41,9 +41,9 @@ const OrderTabs: React.FC = () => {
         options={{
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <MaterialIcons name="list-alt" size={24} color={color} />
+              <MaterialIcons name="list-alt" size={25} color={color} />
             ) : (
-              <MaterialIcons name="list-alt" size={24} color={color} />
+              <MaterialIcons name="list-alt" size={22} color={color} />
             ),
         }}
       />
@@ -53,9 +53,9 @@ const OrderTabs: React.FC = () => {
         options={{
           tabBarIcon: ({ color, focused }) =>
             focused ? (
-              <FontAwesome5 name="user-alt" size={24} color={color} />
+              <FontAwesome5 name="user-alt" size={25} color={color} />
             ) : (
-              <FontAwesome5 name="user-alt" size={24} color={color} />
+              <FontAwesome5 name="user-alt" size={22} color={color} />
             ),
         }}
       />

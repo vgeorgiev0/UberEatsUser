@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Platform, View } from 'react-native';
-import {
-  createStackNavigator,
-  TransitionPresets,
-} from '@react-navigation/stack';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   RootStackParamList,
   RootStackScreens,
 } from '../params/RootStackParams';
 
-import HomeScreen from '../../screens/HomeScreen';
 import RestaurantDetailsScreen from '../../screens/RestaurantDetailsScreen';
 import DishDetailsScreen from '../../screens/DishDetailsScreen';
 import Basket from '../../screens/Basket';
