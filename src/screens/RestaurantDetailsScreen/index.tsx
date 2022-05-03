@@ -1,17 +1,24 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import restaurants from '../../../assets/data/restaurants.json';
 import DishListItem from '../../components/DishListItem';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../types/RootStackParamList';
+import { Restaurant } from '../../../types/restaurant';
 
-const RestaurantDetailsScreen = () => {
+type RestaurantDetailsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'RestaurantDetails'
+>;
+
+const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const restaurantId = route.params?.id;
+  console.log(restaurantId);
+
   const HeaderComponent = () => {
     return (
       <View>
@@ -22,6 +29,9 @@ const RestaurantDetailsScreen = () => {
           size={45}
           color="white"
           style={styles.iconContainer}
+          onPress={() => {
+            navigation.goBack();
+          }}
         />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{restaurants[0].name}</Text>

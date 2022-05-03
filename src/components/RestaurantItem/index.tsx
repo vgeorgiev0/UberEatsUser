@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Restaurant } from '../../../types/restaurant';
 
@@ -6,8 +7,14 @@ interface RestaurantItemProps {
 }
 
 const RestaurantItem: React.FC<RestaurantItemProps> = ({ restaurant }) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.restaurantContainer}>
+    <TouchableOpacity
+      style={styles.restaurantContainer}
+      onPress={() => {
+        navigation.navigate('RestaurantDetails', { id: restaurant.id });
+      }}
+    >
       <Image
         style={styles.image}
         source={{

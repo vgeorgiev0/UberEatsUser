@@ -49,20 +49,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 20,
   },
-  description: {
-    color: '#696969',
-  },
   separator: {
     height: 1,
     backgroundColor: 'lightgrey',
     marginVertical: 10,
   },
-
-  quantity: {
-    fontSize: 25,
-    marginHorizontal: 20,
-  },
-
   button: {
     backgroundColor: 'black',
     marginTop: 'auto',

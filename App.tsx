@@ -1,32 +1,20 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import DishDetailsScreen from './src/screens/DishDetailsScreen';
-import Basket from './src/screens/Basket';
-import HomeScreen from './src/screens/HomeScreen';
-import RestaurantDetailsScreen from './src/screens/RestaurantDetailsScreen';
-import OrdersScreen from './src/screens/OrdersScreen';
-import OrderDetails from './src/screens/OrderDetails';
+import RootNavigator from './src/navigation/MainNavigation';
+// import Loading from './src/components/Loading';
+import Navigator from './src/navigation/Navigator';
+import { RecoilRoot } from 'recoil';
+import { LogBox } from 'react-native';
 
+// TMP Fix for Recoil using a long timer for cleanup
+LogBox.ignoreLogs(['timer']);
+
+import { NavigationContainer } from '@react-navigation/native';
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <HomeScreen /> */}
-      {/* <RestaurantDetailsScreen /> */}
-      {/* <DishDetailsScreen /> */}
-      {/* <Basket /> */}
-      {/* <OrdersScreen /> */}
-      <OrderDetails />
-      <StatusBar style="auto" />
-    </View>
+    <RecoilRoot>
+      <StatusBar />
+      <Navigator />
+    </RecoilRoot>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 20,
-  },
-});
