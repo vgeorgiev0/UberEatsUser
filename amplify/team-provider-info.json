@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ubereatsuser-dev-131601-authRole",
+      "UnauthRoleArn": "arn:aws:iam::261751388295:role/amplify-ubereatsuser-dev-131601-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::261751388295:role/amplify-ubereatsuser-dev-131601-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-ubereatsuser-dev-131601-deployment",
+      "UnauthRoleName": "amplify-ubereatsuser-dev-131601-unauthRole",
+      "StackName": "amplify-ubereatsuser-dev-131601",
+      "StackId": "arn:aws:cloudformation:eu-central-1:261751388295:stack/amplify-ubereatsuser-dev-131601/08a589c0-cf81-11ec-ae8b-0a16fd95d732",
+      "AmplifyAppId": "d24xcdg2rkiru"
+    }
+  }
+}
