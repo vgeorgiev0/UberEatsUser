@@ -13,7 +13,7 @@ export function navigate(name: any, params?: any) {
   // redirect user to My Notifications screen if he is on a different screen
   if (
     navigatorRef.current?.getCurrentRoute()?.name !==
-    RootStackTabScreens.MyNotifications
+    RootStackTabScreens.HomeScreen
   ) {
     navigatorRef.current?.navigate(name, params);
   }

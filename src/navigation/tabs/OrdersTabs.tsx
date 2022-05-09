@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import OrdersScreen from '../../screens/OrdersScreen';
 import {
   RootStackScreens,
   RootStackTabScreens,
@@ -8,6 +7,7 @@ import {
 import { Foundation, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import HomeStackNavigator from '../stacks/HomeStackNavigator';
 import OrderStackNavigator from '../stacks/OrderStackNavigator';
+import Profile from '../../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +29,7 @@ const OrderTabs: React.FC = () => {
         name={RootStackTabScreens.HomeScreen}
         component={HomeStackNavigator}
         options={{
+          title: 'Home',
           headerTitleAlign: 'center',
           tabBarIcon: ({ color, focused }) =>
             focused ? (
@@ -42,6 +43,7 @@ const OrderTabs: React.FC = () => {
         name={RootStackTabScreens.OrderDetails}
         component={OrderStackNavigator}
         options={{
+          title: 'Orders',
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <MaterialIcons name="list-alt" size={25} color={color} />
@@ -52,8 +54,9 @@ const OrderTabs: React.FC = () => {
       />
       <Tab.Screen
         name={RootStackTabScreens.ProfileTab}
-        component={OrdersScreen}
+        component={Profile}
         options={{
+          title: 'Profile',
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <FontAwesome5 name="user-alt" size={25} color={color} />

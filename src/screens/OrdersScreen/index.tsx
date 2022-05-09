@@ -1,7 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 import orders from '../../../assets/data/orders.json';
 import OrderListItem from '../../components/OrderListItem';
+import { Auth } from 'aws-amplify';
 type Props = {};
 
 const OrdersScreen = (props: Props) => {
@@ -10,6 +11,12 @@ const OrdersScreen = (props: Props) => {
       <FlatList
         data={orders}
         renderItem={({ item }) => <OrderListItem order={item} />}
+      />
+      <Button
+        title="logout"
+        onPress={() => {
+          Auth.signOut();
+        }}
       />
     </View>
   );
