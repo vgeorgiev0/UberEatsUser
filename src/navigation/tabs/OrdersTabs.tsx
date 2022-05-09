@@ -1,17 +1,20 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../../screens/HomeScreen';
-import RestaurantDetailsScreen from '../../screens/RestaurantDetailsScreen';
-import DishDetailsScreen from '../../screens/DishDetailsScreen';
 import OrdersScreen from '../../screens/OrdersScreen';
-import { RootStackScreens } from '../params/RootStackParams';
+import {
+  RootStackScreens,
+  RootStackTabScreens,
+} from '../params/RootStackParams';
 import { Foundation, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import HomeStackNavigator from '../stacks/HomeStackNavigator';
+import OrderStackNavigator from '../stacks/OrderStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const OrderTabs: React.FC = () => {
   return (
     <Tab.Navigator
+      initialRouteName={RootStackScreens.Restaurants}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#f14',
@@ -21,12 +24,12 @@ const OrderTabs: React.FC = () => {
           lineHeight: 18,
         },
       }}
-      initialRouteName={RootStackScreens.HomePage}
     >
       <Tab.Screen
-        name={RootStackScreens.HomePage}
-        component={HomeScreen}
+        name={RootStackTabScreens.HomeScreen}
+        component={HomeStackNavigator}
         options={{
+          headerTitleAlign: 'center',
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Foundation name="home" size={25} color={color} />
@@ -36,8 +39,8 @@ const OrderTabs: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={RootStackScreens.Dish}
-        component={DishDetailsScreen}
+        name={RootStackTabScreens.OrderDetails}
+        component={OrderStackNavigator}
         options={{
           tabBarIcon: ({ color, focused }) =>
             focused ? (
@@ -48,7 +51,7 @@ const OrderTabs: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={RootStackScreens.OrdersScreen}
+        name={RootStackTabScreens.ProfileTab}
         component={OrdersScreen}
         options={{
           tabBarIcon: ({ color, focused }) =>

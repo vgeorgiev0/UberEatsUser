@@ -8,39 +8,42 @@ type NestedRouteParams<T> = {
 }[keyof T];
 
 export enum RootStackTabScreens {
-  MyNotifications = 'My Notifications',
-  Favourites = 'Favourites',
-  Settings = 'Settings',
+  HomeScreen = 'HomeScreen',
+  OrderDetails = 'OrderDetails',
+  Root = 'Root',
+  ProfileTab = 'ProfileTab',
 }
 
 type TabParamList = {
-  [RootStackTabScreens.MyNotifications]: undefined;
-  [RootStackTabScreens.Favourites]: undefined;
-  [RootStackTabScreens.Settings]: undefined;
+  [RootStackTabScreens.HomeScreen]: undefined;
+  [RootStackTabScreens.OrderDetails]: undefined;
+  [RootStackTabScreens.Root]: undefined;
+  [RootStackTabScreens.ProfileTab]: undefined;
 };
 
 export enum RootStackScreens {
   RestaurantDetails = 'RestaurantDetails',
+  Root = 'Root',
   Welcome = 'Welcome',
   Dish = 'DishScreen',
+  Profile = 'Profile',
   Basket = 'Basket',
   OrdersScreen = 'OrdersScreen',
-  NotificationDetails = 'NotificationDetails',
-  HomePage = 'HomePage',
+  Restaurants = 'Restaurants',
+  OrderDetailScreen = 'OrderDetailScreen',
 }
 
 // 1. List of screens used inside of stack with related route params defined as type.
 export type RootStackParamList = {
+  [RootStackScreens.Profile]: undefined;
+  [RootStackScreens.Root]: undefined;
   [RootStackScreens.RestaurantDetails]: undefined;
   [RootStackScreens.Welcome]: undefined;
   [RootStackScreens.Dish]: undefined;
   [RootStackScreens.Basket]: NestedRouteParams<TabParamList>;
   [RootStackScreens.OrdersScreen]: undefined;
-  [RootStackScreens.NotificationDetails]: {
-    documentSymbol: string;
-    documentId: number;
-  };
-  [RootStackScreens.HomePage]: undefined;
+  [RootStackScreens.OrderDetailScreen]: undefined;
+  [RootStackScreens.Restaurants]: undefined;
 };
 
 // 2. Screen route parameters defined as interface
