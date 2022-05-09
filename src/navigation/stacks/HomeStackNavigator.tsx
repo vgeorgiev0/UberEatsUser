@@ -14,17 +14,18 @@ const HomeStack = createStackNavigator<RootStackParamList>();
 
 const HomeStackNavigator: React.FC = () => {
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name={RootStackScreens.Restaurants}
         component={HomeScreen}
       />
       <HomeStack.Screen
+        options={{ headerShown: false }}
         name={RootStackScreens.RestaurantDetails}
         component={RestaurantDetailsScreen}
       />
       <HomeStack.Screen
-        name={RootStackScreens.Profile}
+        name={RootStackScreens.Dish}
         component={DishDetailsScreen}
       />
       <HomeStack.Screen name={RootStackScreens.Basket} component={Basket} />

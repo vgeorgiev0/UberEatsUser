@@ -37,9 +37,9 @@ export enum RootStackScreens {
 export type RootStackParamList = {
   [RootStackScreens.Profile]: undefined;
   [RootStackScreens.Root]: undefined;
-  [RootStackScreens.RestaurantDetails]: undefined;
+  [RootStackScreens.RestaurantDetails]: { id: string };
   [RootStackScreens.Welcome]: undefined;
-  [RootStackScreens.Dish]: undefined;
+  [RootStackScreens.Dish]: { id: string };
   [RootStackScreens.Basket]: NestedRouteParams<TabParamList>;
   [RootStackScreens.OrdersScreen]: undefined;
   [RootStackScreens.OrderDetailScreen]: undefined;
