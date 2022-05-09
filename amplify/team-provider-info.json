@@ -10,6 +10,11 @@
       "StackName": "amplify-ubereatsuser-dev-131601",
       "StackId": "arn:aws:cloudformation:eu-central-1:261751388295:stack/amplify-ubereatsuser-dev-131601/08a589c0-cf81-11ec-ae8b-0a16fd95d732",
       "AmplifyAppId": "d24xcdg2rkiru"
+    },
+    "categories": {
+      "auth": {
+        "UberEatsUser": {}
+      }
     }
   }
 }

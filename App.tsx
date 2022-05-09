@@ -8,7 +8,7 @@ import { LogBox } from 'react-native';
 import { withAuthenticator } from 'aws-amplify-react-native';
 import { Amplify } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
-Amplify.configure(awsconfig);
+Amplify.configure({ ...awsconfig, Analytics: { disabled: true } });
 
 // TMP Fix for Recoil using a long timer for cleanup
 LogBox.ignoreLogs(['timer']);
