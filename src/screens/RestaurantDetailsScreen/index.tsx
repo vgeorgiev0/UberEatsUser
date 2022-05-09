@@ -1,29 +1,58 @@
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import restaurants from '../../../assets/data/restaurants.json';
 import DishListItem from '../../components/DishListItem';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../types/RootStackParamList';
-import { Restaurant } from '../../../types/restaurant';
+import {
+  RootStackParamList,
+  RootStackScreens,
+} from '../../navigation/params/RootStackParams';
+import Loading from '../../components/Loading';
+// import { useRecoilValue } from 'recoil';
+// import {
+//   getRestaurantDishes,
+//   getSelectedRestaurantSelector,
+// } from '../../../state/restaurants';
+import { Dish, Restaurant } from '../../models';
+import { DataStore } from 'aws-amplify';
 
 type RestaurantDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  'RestaurantDetails'
+  RootStackScreens.RestaurantDetails
 >;
 
 const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
   navigation,
   route,
 }) => {
-  const restaurantId = route.params?.id;
-  console.log(restaurantId);
+  const id = route.params?.id;
+  const [restaurant, setRestaurant] = useState<Restaurant>();
+  const [dishes, setDishes] = useState<any>();
+
+  // const dishes = useRecoilValue(getRestaurantDishes(id));
+  // const restaurant = useRecoilValue(getSelectedRestaurantSelector(id));
+
+  console.log(id);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    DataStore.query(Restaurant, id).then(setRestaurant);
+
+    DataStore.query(Dish, (dish) => dish.restaurantID('eq', id)).then(
+      setDishes
+    );
+  }, [id]);
+
+  if (!restaurant) {
+    return <Loading />;
+  }
 
   const HeaderComponent = () => {
     return (
       <View>
-        <Image source={{ uri: restaurants[0].image }} style={styles.image} />
-        {/* @ts-ignore */}
+        <Image source={{ uri: restaurant.image }} style={styles.image} />
         <Ionicons
           name="arrow-back-circle"
           size={45}
@@ -34,11 +63,10 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
           }}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{restaurants[0].name}</Text>
+          <Text style={styles.title}>{restaurant.name}</Text>
           <Text style={styles.subtitle}>
-            ${restaurants[0].deliveryFee.toFixed(2)} &#8226;{' '}
-            {restaurants[0].minDeliveryTime}-{restaurants[0].maxDeliveryTime}{' '}
-            minutes
+            ${restaurant.deliveryFee.toFixed(2)} &#8226;{' '}
+            {restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime} minutes
           </Text>
           <Text style={styles.menuTitle}>Menu</Text>
         </View>
@@ -48,7 +76,7 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
   return (
     <View>
       <FlatList
-        data={restaurants[0].dishes}
+        data={dishes}
         renderItem={({ item }) => <DishListItem dish={item} />}
         keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={HeaderComponent}

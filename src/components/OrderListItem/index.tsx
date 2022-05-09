@@ -1,14 +1,20 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Orders } from '../../../types/orders';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackScreens } from '../../navigation/params/RootStackParams';
 
 interface OrderListItemProps {
   order: Orders;
 }
 
 const OrderListItem: React.FC<OrderListItemProps> = ({ order }) => {
+  const navigation = useNavigation<any>();
+  const navigationHandler = () => {
+    navigation.navigate(RootStackScreens.OrderDetailScreen);
+  };
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={navigationHandler}>
       <Image style={styles.image} source={{ uri: order.Restaurant.image }} />
 
       <View style={styles.infoContainer}>

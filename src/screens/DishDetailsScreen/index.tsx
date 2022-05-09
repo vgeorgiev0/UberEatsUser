@@ -1,10 +1,24 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
-import restaurants from '../../../assets/data/restaurants.json';
+import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
-const DishDetailsScreen: React.FC = () => {
+import { useRoute } from '@react-navigation/native';
+import { Dish } from '../../models';
+import { DataStore } from 'aws-amplify';
+import Loading from '../../components/Loading';
+
+interface DishDetailsScreenProps {
+  dish: Dish;
+}
+
+const DishDetailsScreen: React.FC<DishDetailsScreenProps> = () => {
   const [quantity, setQuantity] = useState(1);
-  const dish = restaurants[0].dishes[0];
+  const [dish, setDish] = useState<Dish>();
+  const route = useRoute<any>();
+  const dishID = route.params?.id;
+
+  useEffect(() => {
+    DataStore.query(Dish, dishID).then(setDish);
+  }, [dishID]);
 
   const onPlus = () => {
     setQuantity(quantity + 1);
@@ -15,6 +29,9 @@ const DishDetailsScreen: React.FC = () => {
       setQuantity(quantity - 1);
     }
   };
+  if (!dish) {
+    return <Loading />;
+  }
 
   const getTotal = () => {
     return dish.price * quantity;
@@ -27,7 +44,6 @@ const DishDetailsScreen: React.FC = () => {
       <View style={styles.separator}></View>
 
       <View style={styles.row}>
-        {/* @ts-ignore */}
         <AntDesign
           name="minuscircleo"
           size={60}
@@ -35,7 +51,6 @@ const DishDetailsScreen: React.FC = () => {
           onPress={onMinus}
         />
         <Text style={styles.quantity}>{quantity}</Text>
-        {/* @ts-ignore */}
         <AntDesign
           name="pluscircleo"
           size={60}
@@ -43,7 +58,6 @@ const DishDetailsScreen: React.FC = () => {
           onPress={onPlus}
         />
       </View>
-
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>
           Add {quantity} to basket &#8226; {getTotal().toFixed(2)}$

@@ -1,8 +1,11 @@
 import { StyleSheet, FlatList, View } from 'react-native';
 import RestaurantItem from '../../../src/components/RestaurantItem';
-import restaurants from '../../../assets/data/restaurants.json';
+import { useRecoilValue } from 'recoil';
+import { restaurantsAtom } from '../../../state/restaurants';
 
 export default function HomeScreen() {
+  const restaurants = useRecoilValue(restaurantsAtom);
+
   return (
     <View style={styles.container}>
       <FlatList

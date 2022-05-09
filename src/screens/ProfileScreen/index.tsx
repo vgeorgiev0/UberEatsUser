@@ -1,14 +1,25 @@
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Auth } from 'aws-amplify';
 
 const Profile = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [lat, setLat] = useState('0');
+  const [lng, setLng] = useState('0');
 
   const onSave = () => {};
+  const logoutHandler = () => {
+    Auth.signOut();
+  };
 
   return (
     <SafeAreaView>
@@ -38,7 +49,20 @@ const Profile = () => {
         placeholder="Longitude"
         style={styles.input}
       />
-      <Button onPress={onSave} title="Save" />
+      <View>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: 'green' }]}
+          onPress={onSave}
+        >
+          <Text style={styles.buttonText}> Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: 'red' }]}
+          onPress={logoutHandler}
+        >
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -46,15 +70,27 @@ const Profile = () => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     margin: 10,
   },
   input: {
     margin: 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 15,
     borderRadius: 5,
+  },
+  button: {
+    margin: 10,
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 

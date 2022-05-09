@@ -1,18 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Restaurant } from '../../../types/restaurant';
+import { Restaurant } from '../../models';
+import { RootStackScreens } from '../../navigation/params/RootStackParams';
 
 interface RestaurantItemProps {
   restaurant: Restaurant;
 }
 
 const RestaurantItem: React.FC<RestaurantItemProps> = ({ restaurant }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   return (
     <TouchableOpacity
       style={styles.restaurantContainer}
       onPress={() => {
-        navigation.navigate('RestaurantDetails', { id: restaurant.id });
+        navigation.navigate(RootStackScreens.RestaurantDetails, {
+          id: restaurant.id,
+        });
       }}
     >
       <Image
@@ -26,12 +29,14 @@ const RestaurantItem: React.FC<RestaurantItemProps> = ({ restaurant }) => {
         <View>
           <Text style={styles.title}>{restaurant.name}</Text>
           <Text style={styles.subtitle}>
-            ${restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
-            {restaurant.maxDeliveryTime} minutes
+            ${restaurant.deliveryFee?.toFixed(1)} &#8226;{' '}
+            {restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime} minutes
           </Text>
         </View>
         <View style={styles.rating}>
-          <Text>{restaurant.rating}</Text>
+          <Text style={{ fontSize: 16 }}>
+            {restaurant.rating?.toFixed(1)} ⭐
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -49,7 +54,6 @@ const styles = StyleSheet.create({
   },
   restaurantContainer: {
     width: '100%',
-    backgroundColor: '#fa12',
     padding: 10,
     marginVertical: 10,
   },
@@ -58,11 +62,11 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   rating: {
     marginLeft: 'auto',
-    backgroundColor: '#affa',
-    width: 30,
-    height: 30,
+    backgroundColor: '#ffaa',
+    width: 70,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 25,
   },
 });

@@ -1,14 +1,28 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { Dishes } from '../../../types/dishes';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackScreens } from '../../navigation/params/RootStackParams';
+import { Dish } from '../../models';
 
 interface DishListItemProps {
-  dish: Dishes;
+  dish: Dish | null;
 }
 
 const DishListItem: React.FC<DishListItemProps> = ({ dish }) => {
+  const navigation = useNavigation<any>();
+  const navigationHandler = () => {
+    navigation.navigate(RootStackScreens.Dish, { id: dish?.id });
+  };
+  if (!dish) {
+    return (
+      <View>
+        <Text>No Dishes</Text>
+      </View>
+    );
+  }
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={navigationHandler}>
       <View style={styles.textContainer}>
         <Text style={styles.name}>{dish.name}</Text>
         <Text style={styles.description} numberOfLines={2}>
