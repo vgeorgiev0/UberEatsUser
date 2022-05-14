@@ -12,7 +12,8 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { basketAtom, restaurantBasketAtom } from '../../../state/basket';
-import { subAtom } from '../../../state/user';
+import { dbUserAtom } from '../../../state/user';
+import { BasketDish } from '../../models';
 type Props = NativeStackScreenProps<
   RootStackParamList,
   RootStackScreens.Profile
@@ -24,7 +25,7 @@ const DishDetailsScreen: React.FC<Props> = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
   const [dish, setDish] = useState<Dish>();
   const route = useRoute<any>();
-  const sub = useRecoilValue(subAtom);
+  const dbUser = useRecoilValue(dbUserAtom);
   const dishID = route.params?.id;
 
   useEffect(() => {
@@ -32,9 +33,9 @@ const DishDetailsScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
     DataStore.query(Basket, (b) =>
-      b.restaurantID('eq', restaurant.id).userID('eq', sub)
+      b.restaurantID('eq', restaurant.id).userID('eq', dbUser.id)
     ).then((baskets) => setBasket(baskets[0]));
-  }, [sub, restaurant]);
+  }, [dbUser, restaurant]);
 
   useEffect(() => {
     DataStore.query(Dish, dishID).then(setDish);
@@ -62,7 +63,7 @@ const DishDetailsScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
     const newBasket = await DataStore.save(
-      new Basket({ userID: sub.id, restaurantID: restaurant.id })
+      new Basket({ userID: dbUser.id, restaurantID: restaurant.id })
     );
     setBasket(newBasket);
     return newBasket;
@@ -70,7 +71,10 @@ const DishDetailsScreen: React.FC<Props> = ({ navigation }) => {
 
   const addDishToBasket = async (dish: Dish, quantity: number) => {
     let theBasket = basket || (await createNewBasket());
-
+    // create a BasketDish item and save to Datastore
+    const newDish = await DataStore.save(
+      new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
+    );
     // console.log('Add dish to basket', dish.name, 'quantity : ', quantity);
   };
 

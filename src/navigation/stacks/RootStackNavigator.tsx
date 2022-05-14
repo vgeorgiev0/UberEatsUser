@@ -7,11 +7,11 @@ import {
 import OrderTabs from '../tabs/OrdersTabs';
 import { Restaurant } from '../../models';
 import { Auth, DataStore } from 'aws-amplify';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { restaurantsAtom } from '../../../state/restaurants';
 import { dishesAtom } from '../../../state/dishes';
 import { Dish } from '../../models';
-import { authUserAtom, dbUserAtom, subAtom } from '../../../state/user';
+import { authUserAtom, dbUserAtom } from '../../../state/user';
 import Profile from '../../screens/ProfileScreen';
 import { User } from '../../models';
 
@@ -22,7 +22,6 @@ const RootStackNavigator: React.FC = () => {
   const setDishes = useSetRecoilState(dishesAtom);
   const [authUser, setAuthUser] = useRecoilState(authUserAtom);
   const [dbUser, setDbUser] = useRecoilState(dbUserAtom);
-  const setSub = useSetRecoilState(subAtom);
   const sub = authUser.attributes?.sub;
 
   useEffect(() => {
@@ -39,15 +38,8 @@ const RootStackNavigator: React.FC = () => {
     DataStore.query(User, (user) => user.sub('eq', sub)).then((users) =>
       setDbUser(users[0])
     );
-    setDBUser();
   }, [sub]);
 
-  const setDBUser = async () => {
-    if (!dbUser) {
-      return;
-    }
-    setSub(dbUser);
-  };
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {dbUser ? (
