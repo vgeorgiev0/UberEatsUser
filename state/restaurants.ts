@@ -1,4 +1,3 @@
-import { dishesAtom } from './dishes';
 import { atom, selector, selectorFamily } from 'recoil';
 import { Restaurant } from '../src/models';
 
@@ -19,12 +18,12 @@ export const getSelectedRestaurantSelector = selectorFamily({
     },
 });
 
-export const getRestaurantDishes = selectorFamily({
-  key: 'getRestaurantDishes',
-  get:
-    (restaurantID) =>
-    ({ get }) => {
-      const dishes = get(dishesAtom);
-      return dishes.filter((dish) => dish.restaurantID === restaurantID);
-    },
-});
+// export const getRestaurantDishes = selectorFamily({
+//   key: 'getRestaurantDishes',
+//   get:
+//     (restaurantID) =>
+//     ({ get }) => {
+//       const dishes = get(dishesAtom);
+//       return dishes.filter((dish) => dish.restaurantID === restaurantID);
+//     },
+// });

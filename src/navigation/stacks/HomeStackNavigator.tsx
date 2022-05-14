@@ -18,6 +18,7 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen
         name={RootStackScreens.Restaurants}
         component={HomeScreen}
+        options={{ headerTitleAlign: 'center' }}
       />
       <HomeStack.Screen
         options={{ headerShown: false }}

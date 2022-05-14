@@ -3,20 +3,45 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
+import { User } from '../../models';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { authUserAtom, dbUserAtom, subAtom } from '../../../state/user';
 
 const Profile = () => {
+  const setDbUser = useSetRecoilState(dbUserAtom);
+  const userA = useRecoilValue(authUserAtom);
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [adress, setAddress] = useState('');
   const [lat, setLat] = useState('0');
   const [lng, setLng] = useState('0');
 
-  const onSave = () => {};
+  const sub = userA.attributes?.sub;
+
+  const onSave = async () => {
+    try {
+      const user = await DataStore.save(
+        new User({
+          name,
+          adress,
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+          sub,
+        })
+      );
+
+      setDbUser(user);
+      console.log(user);
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+
   const logoutHandler = () => {
     Auth.signOut();
   };
@@ -31,7 +56,7 @@ const Profile = () => {
         style={styles.input}
       />
       <TextInput
-        value={address}
+        value={adress}
         onChangeText={setAddress}
         placeholder="Address"
         style={styles.input}

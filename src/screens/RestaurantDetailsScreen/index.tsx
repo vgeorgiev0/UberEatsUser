@@ -32,8 +32,6 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
   // const dishes = useRecoilValue(getRestaurantDishes(id));
   // const restaurant = useRecoilValue(getSelectedRestaurantSelector(id));
 
-  console.log(id);
-
   useEffect(() => {
     if (!id) {
       return;
@@ -43,6 +41,7 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
     DataStore.query(Dish, (dish) => dish.restaurantID('eq', id)).then(
       setDishes
     );
+    console.log(id);
   }, [id]);
 
   if (!restaurant) {
