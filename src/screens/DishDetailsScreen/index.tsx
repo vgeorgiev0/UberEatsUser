@@ -2,19 +2,39 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import { Dish } from '../../models';
+import { Dish, Basket } from '../../models';
 import { DataStore } from 'aws-amplify';
 import Loading from '../../components/Loading';
+import {
+  RootStackParamList,
+  RootStackScreens,
+} from '../../navigation/params/RootStackParams';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { basketAtom, restaurantBasketAtom } from '../../../state/basket';
+import { subAtom } from '../../../state/user';
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  RootStackScreens.Profile
+>;
 
-interface DishDetailsScreenProps {
-  dish: Dish;
-}
-
-const DishDetailsScreen: React.FC<DishDetailsScreenProps> = () => {
+const DishDetailsScreen: React.FC<Props> = ({ navigation }) => {
+  const [basket, setBasket] = useRecoilState(basketAtom);
+  const [restaurant, setRestaurant] = useRecoilState(restaurantBasketAtom);
   const [quantity, setQuantity] = useState(1);
   const [dish, setDish] = useState<Dish>();
   const route = useRoute<any>();
+  const sub = useRecoilValue(subAtom);
   const dishID = route.params?.id;
+
+  useEffect(() => {
+    if (!restaurant) {
+      return;
+    }
+    DataStore.query(Basket, (b) =>
+      b.restaurantID('eq', restaurant.id).userID('eq', sub)
+    ).then((baskets) => setBasket(baskets[0]));
+  }, [sub, restaurant]);
 
   useEffect(() => {
     DataStore.query(Dish, dishID).then(setDish);
@@ -35,6 +55,28 @@ const DishDetailsScreen: React.FC<DishDetailsScreenProps> = () => {
 
   const getTotal = () => {
     return dish.price * quantity;
+  };
+
+  const createNewBasket = async () => {
+    if (!restaurant) {
+      return;
+    }
+    const newBasket = await DataStore.save(
+      new Basket({ userID: sub.id, restaurantID: restaurant.id })
+    );
+    setBasket(newBasket);
+    return newBasket;
+  };
+
+  const addDishToBasket = async (dish: Dish, quantity: number) => {
+    let theBasket = basket || (await createNewBasket());
+
+    // console.log('Add dish to basket', dish.name, 'quantity : ', quantity);
+  };
+
+  const addToBasketHandler = async () => {
+    addDishToBasket(dish, quantity);
+    navigation.goBack();
   };
 
   return (
@@ -58,7 +100,7 @@ const DishDetailsScreen: React.FC<DishDetailsScreenProps> = () => {
           onPress={onPlus}
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={addToBasketHandler}>
         <Text style={styles.buttonText}>
           Add {quantity} to basket &#8226; {getTotal().toFixed(2)}$
         </Text>

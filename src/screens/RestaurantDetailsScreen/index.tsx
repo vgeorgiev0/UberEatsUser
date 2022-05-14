@@ -15,6 +15,8 @@ import Loading from '../../components/Loading';
 // } from '../../../state/restaurants';
 import { Dish, Restaurant } from '../../models';
 import { DataStore } from 'aws-amplify';
+import { useSetRecoilState } from 'recoil';
+import { restaurantBasketAtom } from '../../../state/basket';
 
 type RestaurantDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -25,6 +27,7 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
   navigation,
   route,
 }) => {
+  const setRestaurantBasket = useSetRecoilState(restaurantBasketAtom);
   const id = route.params?.id;
   const [restaurant, setRestaurant] = useState<Restaurant>();
   const [dishes, setDishes] = useState<any>();
@@ -43,6 +46,12 @@ const RestaurantDetailsScreen: React.FC<RestaurantDetailsScreenProps> = ({
     );
     console.log(id);
   }, [id]);
+  useEffect(() => {
+    if (!restaurant) {
+      return;
+    }
+    setRestaurantBasket(restaurant);
+  }, [restaurant]);
 
   if (!restaurant) {
     return <Loading />;

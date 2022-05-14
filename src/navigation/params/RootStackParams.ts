@@ -1,11 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
-type NestedRouteParams<T> = {
-  [K in keyof T]: undefined extends T[K]
-    ? { screen: K; params?: T[K] }
-    : { screen: K; params: T[K] };
-}[keyof T];
+// type NestedRouteParams<T> = {
+//   [K in keyof T]: undefined extends T[K]
+//     ? { screen: K; params?: T[K] }
+//     : { screen: K; params: T[K] };
+// }[keyof T];
 
 export enum RootStackTabScreens {
   HomeScreen = 'HomeScreen',
@@ -40,7 +40,7 @@ export type RootStackParamList = {
   [RootStackScreens.RestaurantDetails]: { id: string };
   [RootStackScreens.Welcome]: undefined;
   [RootStackScreens.Dish]: { id: string };
-  [RootStackScreens.Basket]: NestedRouteParams<TabParamList>;
+  [RootStackScreens.Basket]: undefined;
   [RootStackScreens.OrdersScreen]: undefined;
   [RootStackScreens.OrderDetailScreen]: undefined;
   [RootStackScreens.Restaurants]: undefined;

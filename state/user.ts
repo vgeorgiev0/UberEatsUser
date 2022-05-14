@@ -10,7 +10,7 @@ export const dbUserAtom = atom<any>({
   default: null,
 });
 
-export const subAtom = atom({
+export const subAtom = atom<any>({
   key: 'subAtom',
   default: '',
 });

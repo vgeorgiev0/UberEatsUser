@@ -22,6 +22,7 @@ const RootStackNavigator: React.FC = () => {
   const setDishes = useSetRecoilState(dishesAtom);
   const [authUser, setAuthUser] = useRecoilState(authUserAtom);
   const [dbUser, setDbUser] = useRecoilState(dbUserAtom);
+  const setSub = useSetRecoilState(subAtom);
   const sub = authUser.attributes?.sub;
 
   useEffect(() => {
@@ -38,8 +39,15 @@ const RootStackNavigator: React.FC = () => {
     DataStore.query(User, (user) => user.sub('eq', sub)).then((users) =>
       setDbUser(users[0])
     );
+    setDBUser();
   }, [sub]);
 
+  const setDBUser = async () => {
+    if (!dbUser) {
+      return;
+    }
+    setSub(dbUser);
+  };
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {dbUser ? (

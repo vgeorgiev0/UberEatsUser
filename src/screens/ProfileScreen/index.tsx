@@ -6,24 +6,40 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Auth, DataStore } from 'aws-amplify';
 import { User } from '../../models';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authUserAtom, dbUserAtom, subAtom } from '../../../state/user';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { authUserAtom, dbUserAtom } from '../../../state/user';
+import {
+  RootStackParamList,
+  RootStackScreens,
+} from '../../navigation/params/RootStackParams';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  RootStackScreens.Profile
+>;
 
-const Profile = () => {
-  const setDbUser = useSetRecoilState(dbUserAtom);
+const Profile: React.FC<Props> = ({ navigation }) => {
+  const [dbUser, setDbUser] = useRecoilState(dbUserAtom);
   const userA = useRecoilValue(authUserAtom);
-  const [name, setName] = useState('');
-  const [adress, setAddress] = useState('');
-  const [lat, setLat] = useState('0');
-  const [lng, setLng] = useState('0');
-
+  const [name, setName] = useState(dbUser?.name || '');
+  const [adress, setAddress] = useState(dbUser?.adress || '');
+  const [lat, setLat] = useState(dbUser?.lat + '' || '');
+  const [lng, setLng] = useState(dbUser?.lng + '' || '');
   const sub = userA.attributes?.sub;
 
   const onSave = async () => {
+    if (dbUser) {
+      await updateUser();
+    } else {
+      await createUser();
+    }
+  };
+
+  const createUser = async () => {
     try {
       const user = await DataStore.save(
         new User({
@@ -40,6 +56,19 @@ const Profile = () => {
     } catch (error) {
       Alert.alert('Error', error.message);
     }
+  };
+
+  const updateUser = async () => {
+    const user = await DataStore.save(
+      User.copyOf(dbUser, (updated) => {
+        updated.name = name;
+        updated.adress = adress;
+        updated.lat = parseFloat(lat);
+        updated.lng = parseFloat(lng);
+      })
+    );
+    setDbUser(user);
+    navigation.goBack();
   };
 
   const logoutHandler = () => {
